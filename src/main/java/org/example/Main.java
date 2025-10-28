@@ -10,8 +10,10 @@ import java.nio.file.Paths;
 
 public class Main extends JPanel {
     // screen settings
-    private final int screenWidth = 550;
-    private final int screenHeight = 550;
+    private final int SCREEN_WIDTH = 550;
+    private final int SCREEN_HEIGHT = 550;
+
+    private final int BOX_SIZE = 200;
 
     // path
     private final String homePath = Paths.get("").toAbsolutePath().toString();
@@ -46,11 +48,11 @@ public class Main extends JPanel {
     BufferedImage image;
 
     Main() {
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setDoubleBuffered(true); // enables double buffering for smoother rendering
-        this.setFocusable(true); // ensure the panel is focusable
-        this.setLayout(null); // disable layout manager to use absolute positioning
-        this.setTransferHandler(new FileDropHandler(this)); // allows files to be dropped
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        this.setDoubleBuffered(true);
+        this.setFocusable(true);
+        this.setLayout(null);
+        this.setTransferHandler(new FileDropHandler(this));
 
         // create components
         create.mainComponents();
@@ -63,39 +65,39 @@ public class Main extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        drawBox(g2, 50, 300, 200, 200);
-        drawBox(g2, 300, 300, 200, 200);
+        drawBox(g2, 50, 300);
+        drawBox(g2, 300, 300);
 
         if (originalImage != null) {
-            drawScaledImage(g2, originalImage, 50, 300, 200, 200);
-            drawScaledImage(g2, image, 300, 300, 200, 200);
+            drawScaledImage(g2, originalImage, 50, 300);
+            drawScaledImage(g2, image, 300, 300);
         }
 
-        drawBoxOutline(g2, 50, 300, 200, 200);
-        drawBoxOutline(g2, 300, 300, 200, 200);
+        drawBoxOutline(g2, 50, 300);
+        drawBoxOutline(g2, 300, 300);
     }
 
-    private void drawScaledImage(Graphics2D g2, BufferedImage image, int boxX, int boxY, int boxWidth, int boxHeight) {
+    private void drawScaledImage(Graphics2D g2, BufferedImage image, int x, int y) {
         // draw image
-        double scale = Math.min((double) boxWidth / image.getWidth(), (double) boxHeight / image.getHeight());
+        double scale = Math.min((double) BOX_SIZE / image.getWidth(), (double) BOX_SIZE / image.getHeight());
 
         int scaledWidth = (int) (image.getWidth() * scale);
         int scaledHeight = (int) (image.getHeight() * scale);
 
-        int imageX = boxX + (boxWidth - scaledWidth) / 2;
-        int imageY = boxY + (boxHeight - scaledHeight) / 2;
+        int imageX = x + (BOX_SIZE - scaledWidth) / 2;
+        int imageY = y + (BOX_SIZE - scaledHeight) / 2;
 
         g2.drawImage(image.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH), imageX, imageY, this);
     }
 
-    private void drawBox(Graphics2D g2, int boxX, int boxY, int boxWidth, int boxHeight) {
+    private void drawBox(Graphics2D g2, int x, int y) {
         g2.setColor(Color.decode("#eeeeee"));
-        g2.fillRect(boxX, boxY, boxWidth, boxHeight);
+        g2.fillRect(x, y, BOX_SIZE, BOX_SIZE);
     }
 
-    private void drawBoxOutline(Graphics2D g2, int boxX, int boxY, int boxWidth, int boxHeight) {
+    private void drawBoxOutline(Graphics2D g2, int x, int y) {
         g2.setColor(Color.BLACK);
-        g2.drawRect(boxX, boxY, boxWidth, boxHeight);
+        g2.drawRect(x, y, BOX_SIZE, BOX_SIZE);
     }
 
     public static void main(String[] args) {

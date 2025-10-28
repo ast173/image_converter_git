@@ -25,10 +25,6 @@ public class Util {
 
     static boolean isAcceptableFileFormat(String path) {
         File file = new File(path);
-        return isAcceptableFileFormat(file);
-    }
-
-    static boolean isAcceptableFileFormat(File file) {
         String fileName = file.getName().toLowerCase();
         for (String extension : Util.inputTypes) {
             if (fileName.endsWith(extension)) {
@@ -40,13 +36,5 @@ public class Util {
 
     static boolean supportsAlpha(String type) {
         return Arrays.asList(Util.alphaTypes).contains(type);
-    }
-
-    static String bytesToBase64(byte[] bytes) {
-        return Base64.getEncoder().encodeToString(bytes);
-    }
-
-    static byte[] base64ToBytes(String base64) {
-        return Base64.getDecoder().decode(base64);
     }
 }

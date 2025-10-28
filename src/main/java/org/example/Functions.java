@@ -58,10 +58,12 @@ public class Functions {
             Util.throwError("Input field is empty");
             return false;
         }
+
         if (!Util.isAcceptableFileFormat(path)) {
             Util.throwError("Image is an invalid type");
             return false;
         }
+
         return true;
     }
 
@@ -141,7 +143,7 @@ public class Functions {
     // https://stackoverflow.com/questions/9558981/flip-image-with-graphics2d
     void flipHorizontal(BufferedImage image) {
         if (main.image == null) {
-            Util.throwError("An image has not been loaded yet"); // TODO maybe this message isn't needed
+            Util.throwError("An image has not been loaded yet");
             return;
         }
         AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
@@ -189,7 +191,7 @@ public class Functions {
                 tx.rotate(Math.toRadians(-90));
                 break;
             default:
-                Util.throwError("Degrees argument must be 90 or -90");
+                Util.throwError("Degrees must be 90 or -90");
                 return;
         }
 

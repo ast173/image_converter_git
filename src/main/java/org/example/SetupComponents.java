@@ -8,6 +8,11 @@ public class SetupComponents {
     Main main;
     Functions func;
 
+    private final int BUTTON_WIDTH = 100;
+    private final int BUTTON_HEIGHT = 30;
+    private final int LABEL_WIDTH = 100;
+    private final int LABEL_HEIGHT = 20;
+
     SetupComponents(Main main) {
         this.main = main;
         this.func = new Functions(main);
@@ -16,7 +21,7 @@ public class SetupComponents {
     void mainComponents() {
         // input label
         main.inputLabel = new JLabel("Input File:");
-        main.inputLabel.setBounds(50, 30, 100, 20);
+        main.inputLabel.setBounds(50, 30, LABEL_WIDTH, LABEL_HEIGHT);
         main.add(main.inputLabel);
 
         // input text field
@@ -33,19 +38,19 @@ public class SetupComponents {
 
         // clear button
         main.clearButton = new JButton("Clear");
-        main.clearButton.setBounds(100, 150, 100, 30);
+        main.clearButton.setBounds(100, 150, BUTTON_WIDTH, BUTTON_HEIGHT);
         main.clearButton.addActionListener(e -> func.clear());
         main.add(main.clearButton);
 
         // about button
         main.aboutButton = new JButton("About");
-        main.aboutButton.setBounds(100, 200, 100, 30);
+        main.aboutButton.setBounds(100, 200, BUTTON_WIDTH, BUTTON_HEIGHT);
         main.aboutButton.addActionListener(e -> func.getAbout());
         main.add(main.aboutButton);
 
         // exit button
         main.exitButton = new JButton("Exit");
-        main.exitButton.setBounds(100, 250, 100, 30);
+        main.exitButton.setBounds(100, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
         main.exitButton.addActionListener(e -> System.exit(0));
         main.add(main.exitButton);
     }
@@ -53,13 +58,13 @@ public class SetupComponents {
     void convertionComponents() {
         // convert button
         main.convertButton = new JButton("Convert");
-        main.convertButton.setBounds(100, 100, 100, 30);
+        main.convertButton.setBounds(100, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
         main.convertButton.addActionListener(e -> func.attemptConvert());
         main.add(main.convertButton);
 
         // output options
         main.outputOptions = new JComboBox<>(Util.outputTypes);
-        main.outputOptions.setBounds(225, 100, 100, 30);
+        main.outputOptions.setBounds(225, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
         main.outputOptions.setSelectedItem(main.outputType);
         main.outputOptions.addActionListener(e -> func.changeType());
         main.add(main.outputOptions);
@@ -74,36 +79,36 @@ public class SetupComponents {
     void flipComponents() {
         // flip horizontally
         main.horizontalFlipButton = new JButton("Flip ⇄");
-        main.horizontalFlipButton.setBounds(350, 100, 100, 30);
+        main.horizontalFlipButton.setBounds(350, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
         main.horizontalFlipButton.addActionListener(e -> func.flipHorizontal(main.image));
         main.add(main.horizontalFlipButton);
 
         // flip vertically
         main.verticalFlipButton = new JButton("Flip ⇅");
-        main.verticalFlipButton.setBounds(350, 150, 100, 30);
+        main.verticalFlipButton.setBounds(350, 150, BUTTON_WIDTH, BUTTON_HEIGHT);
         main.verticalFlipButton.addActionListener(e -> func.flipVertical(main.image));
         main.add(main.verticalFlipButton);
 
         // rotate clockwise
         main.rotateCWButton = new JButton("Rotate ↻");
-        main.rotateCWButton.setBounds(350, 200, 100, 30);
+        main.rotateCWButton.setBounds(350, 200, BUTTON_WIDTH, BUTTON_HEIGHT);
         main.rotateCWButton.addActionListener(e -> func.rotate(main.image, 90));
         main.add(main.rotateCWButton);
 
         // rotate counterclockwise
         main.rotateCCWButton = new JButton("Rotate ↺");
-        main.rotateCCWButton.setBounds(350, 250, 100, 30);
+        main.rotateCCWButton.setBounds(350, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
         main.rotateCCWButton.addActionListener(e -> func.rotate(main.image, -90));
         main.add(main.rotateCCWButton);
 
         // original label
         main.originalLabel = new JLabel("Original Image:");
-        main.originalLabel.setBounds(50, 500, 100, 20);
+        main.originalLabel.setBounds(50, 500, LABEL_WIDTH, LABEL_HEIGHT);
         main.add(main.originalLabel);
 
         // new label
         main.newLabel = new JLabel("New Image:");
-        main.newLabel.setBounds(300, 500, 100, 20);
+        main.newLabel.setBounds(300, 500, LABEL_WIDTH, LABEL_HEIGHT);
         main.add(main.newLabel);
     }
 }

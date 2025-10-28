@@ -34,31 +34,33 @@ public class FileDropHandler extends TransferHandler {
         File inputFile = getFileData(support);
         if (inputFile == null) return false;
 
-        // check if file is an image type
-        if (Util.isAcceptableFileFormat(inputFile)) {
-            String inputPath = inputFile.getAbsolutePath();
-            // get path
-            main.inputTextField.setText(inputPath);
+        // get path
+        String inputPath = inputFile.getAbsolutePath();
 
-            // get image
-            try {
-                // handle .heic images differently
-                if (inputPath.toLowerCase().endsWith(".heic")) {
-                    main.originalImage = HEICHandler.readHEIC(inputPath);
-                } else {
-                    System.out.println(inputFile);
-                    main.originalImage = ImageIO.read(inputFile);
-                }
-                main.image = main.originalImage;
-                main.repaint();
-            } catch (Exception e) {
-                Util.throwError("Image provided by path doesn't exist");
-            }
-            return true;
-        } else {
+        // check if file is not an acceptable image type
+        if (!Util.isAcceptableFileFormat(inputPath)) {
             Util.throwError("Only " + Arrays.toString(Util.inputTypes) + " files are supported");
             return false;
         }
+
+        main.inputTextField.setText(inputPath);
+
+        // get image
+        try {
+            // handle .heic images differently
+            if (inputPath.toLowerCase().endsWith(".heic")) {
+                main.originalImage = HEICHandler.readHEIC(inputPath);
+            } else {
+                System.out.println(inputFile);
+                main.originalImage = ImageIO.read(inputFile);
+            }
+
+            main.image = main.originalImage;
+            main.repaint();
+        } catch (Exception e) {
+            Util.throwError("Image provided by path doesn't exist");
+        }
+        return true;
     }
 
     @SuppressWarnings("unchecked")
