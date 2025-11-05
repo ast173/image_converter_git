@@ -21,7 +21,6 @@ public class HEICHandler {
             return image2;
         } catch (Exception e) {
             Util.throwError("Error with reading .heic file");
-            e.printStackTrace();
             return null;
         }
     }

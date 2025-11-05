@@ -33,13 +33,11 @@ public class FileDropHandler extends TransferHandler {
 
         File inputFile = getFileData(support);
         if (inputFile == null) return false;
-
-        // get path
         String inputPath = inputFile.getAbsolutePath();
 
         // check if file is not an acceptable image type
         if (!Util.isAcceptableFileFormat(inputPath)) {
-            Util.throwError("Only " + Arrays.toString(Util.inputTypes) + " files are supported");
+            Util.throwError("Only " + Arrays.toString(Util.INPUT_TYPES) + " files are supported");
             return false;
         }
 
@@ -47,19 +45,13 @@ public class FileDropHandler extends TransferHandler {
 
         // get image
         try {
-            // handle .heic images differently
-            if (inputPath.toLowerCase().endsWith(".heic")) {
-                main.originalImage = HEICHandler.readHEIC(inputPath);
-            } else {
-                System.out.println(inputFile);
-                main.originalImage = ImageIO.read(inputFile);
-            }
-
+            readFile(inputPath, inputFile);
             main.image = main.originalImage;
             main.repaint();
         } catch (Exception e) {
             Util.throwError("Image provided by path doesn't exist");
         }
+
         return true;
     }
 
@@ -71,6 +63,15 @@ public class FileDropHandler extends TransferHandler {
         } catch (UnsupportedFlavorException | IOException e) {
             Util.throwError("UnsupportedFlavorException | IOException");
             return null;
+        }
+    }
+
+    private void readFile(String inputPath, File inputFile) throws IOException {
+        if (inputPath.toLowerCase().endsWith(".heic")) {
+            // handle .heic images differently
+            main.originalImage = HEICHandler.readHEIC(inputPath);
+        } else {
+            main.originalImage = ImageIO.read(inputFile);
         }
     }
 }

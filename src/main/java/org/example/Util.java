@@ -1,19 +1,19 @@
 package org.example;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.Arrays;
-import java.util.Base64;
 
-public class Util {
+class Util {
     static Main main;
 
-//    static final String[] inputTypes = {".png", ".jpeg", ".jpg", ".heic", ".webp", ".ico", ".svg"};
-//    static final String[] outputTypes = {".png", ".jpeg", ".jpg", ".webp", ".svg"};
-    static final String[] inputTypes = {".png", ".jpeg", ".jpg", ".heic", ".webp", ".ico"};
-    static final String[] outputTypes = {".png", ".jpeg", ".jpg", ".webp"};
-    static final String[] alphaTypes = {".png", ".webp", ".ico"};
-    static final String[] nonAlphaTypes = {".jpeg", ".jpg"};
+    static final String[] INPUT_TYPES = {".png", ".jpeg", ".jpg", ".heic", ".webp", ".ico"};
+    static final String[] OUTPUT_TYPES = {".png", ".jpeg", ".jpg", ".webp"};
+    static final String[] ALPHA_TYPES = {".png", ".webp", ".ico"};
+    static final String[] NON_ALPHA_TYPES = {".jpeg", ".jpg"};
+
+    static final Color BACKGROUND_COLOR = Color.decode("#eeeeee");
 
     static void throwError(String message) {
         JOptionPane.showMessageDialog(main, message, "Error", JOptionPane.ERROR_MESSAGE);
@@ -26,7 +26,7 @@ public class Util {
     static boolean isAcceptableFileFormat(String path) {
         File file = new File(path);
         String fileName = file.getName().toLowerCase();
-        for (String extension : Util.inputTypes) {
+        for (String extension : Util.INPUT_TYPES) {
             if (fileName.endsWith(extension)) {
                 return true;
             }
@@ -35,6 +35,6 @@ public class Util {
     }
 
     static boolean supportsAlpha(String type) {
-        return Arrays.asList(Util.alphaTypes).contains(type);
+        return Arrays.asList(Util.ALPHA_TYPES).contains(type);
     }
 }

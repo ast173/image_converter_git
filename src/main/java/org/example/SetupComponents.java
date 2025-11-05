@@ -12,6 +12,8 @@ public class SetupComponents {
     private final int BUTTON_HEIGHT = 30;
     private final int LABEL_WIDTH = 100;
     private final int LABEL_HEIGHT = 20;
+    private final int TEXT_FIELD_WIDTH = 200;
+    private final int TEXT_FIELD_HEIGHT = 30;
 
     SetupComponents(Main main) {
         this.main = main;
@@ -26,7 +28,7 @@ public class SetupComponents {
 
         // input text field
         main.inputTextField = new JTextField("");
-        main.inputTextField.setBounds(50, 50, 200, 30);
+        main.inputTextField.setBounds(50, 50, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
         main.inputTextField.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "convertAction");
         main.inputTextField.getActionMap().put("convertAction", new AbstractAction() {
             @Override
@@ -63,7 +65,7 @@ public class SetupComponents {
         main.add(main.convertButton);
 
         // output options
-        main.outputOptions = new JComboBox<>(Util.outputTypes);
+        main.outputOptions = new JComboBox<>(Util.OUTPUT_TYPES);
         main.outputOptions.setBounds(225, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
         main.outputOptions.setSelectedItem(main.outputType);
         main.outputOptions.addActionListener(e -> func.changeType());
@@ -73,32 +75,32 @@ public class SetupComponents {
         // defaults to home folder
         main.fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         // set a title for the dialog
-        main.fileChooser.setDialogTitle("File Chooser");
+        main.fileChooser.setDialogTitle("Save Image");
     }
 
     void flipComponents() {
         // flip horizontally
         main.horizontalFlipButton = new JButton("Flip ⇄");
         main.horizontalFlipButton.setBounds(350, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
-        main.horizontalFlipButton.addActionListener(e -> func.flipHorizontal(main.image));
+        main.horizontalFlipButton.addActionListener(e -> func.flip(main.image, Direction.HORIZONTALLY));
         main.add(main.horizontalFlipButton);
 
         // flip vertically
         main.verticalFlipButton = new JButton("Flip ⇅");
         main.verticalFlipButton.setBounds(350, 150, BUTTON_WIDTH, BUTTON_HEIGHT);
-        main.verticalFlipButton.addActionListener(e -> func.flipVertical(main.image));
+        main.verticalFlipButton.addActionListener(e -> func.flip(main.image, Direction.VERTICALLY));
         main.add(main.verticalFlipButton);
 
         // rotate clockwise
         main.rotateCWButton = new JButton("Rotate ↻");
         main.rotateCWButton.setBounds(350, 200, BUTTON_WIDTH, BUTTON_HEIGHT);
-        main.rotateCWButton.addActionListener(e -> func.rotate(main.image, 90));
+        main.rotateCWButton.addActionListener(e -> func.rotate(main.image, Direction.CLOCKWISE));
         main.add(main.rotateCWButton);
 
         // rotate counterclockwise
         main.rotateCCWButton = new JButton("Rotate ↺");
         main.rotateCCWButton.setBounds(350, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
-        main.rotateCCWButton.addActionListener(e -> func.rotate(main.image, -90));
+        main.rotateCCWButton.addActionListener(e -> func.rotate(main.image, Direction.COUNTER_CLOCKWISE));
         main.add(main.rotateCCWButton);
 
         // original label

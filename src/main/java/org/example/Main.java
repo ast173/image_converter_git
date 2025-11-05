@@ -5,9 +5,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.nio.file.Paths;
 
-// TODO: add .heic and .ico writing
-// TODO: .svg r/w
-
 public class Main extends JPanel {
     // screen settings
     private final int SCREEN_WIDTH = 550;
@@ -43,7 +40,7 @@ public class Main extends JPanel {
     JLabel newLabel;
 
     // variables
-    String outputType = Util.inputTypes[0];
+    String outputType = Util.INPUT_TYPES[0];
     BufferedImage originalImage;
     BufferedImage image;
 
@@ -65,9 +62,6 @@ public class Main extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        drawBox(g2, 50, 300);
-        drawBox(g2, 300, 300);
-
         if (originalImage != null) {
             drawScaledImage(g2, originalImage, 50, 300);
             drawScaledImage(g2, image, 300, 300);
@@ -78,7 +72,6 @@ public class Main extends JPanel {
     }
 
     private void drawScaledImage(Graphics2D g2, BufferedImage image, int x, int y) {
-        // draw image
         double scale = Math.min((double) BOX_SIZE / image.getWidth(), (double) BOX_SIZE / image.getHeight());
 
         int scaledWidth = (int) (image.getWidth() * scale);
@@ -88,11 +81,6 @@ public class Main extends JPanel {
         int imageY = y + (BOX_SIZE - scaledHeight) / 2;
 
         g2.drawImage(image.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH), imageX, imageY, this);
-    }
-
-    private void drawBox(Graphics2D g2, int x, int y) {
-        g2.setColor(Color.decode("#eeeeee"));
-        g2.fillRect(x, y, BOX_SIZE, BOX_SIZE);
     }
 
     private void drawBoxOutline(Graphics2D g2, int x, int y) {
@@ -105,7 +93,8 @@ public class Main extends JPanel {
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        screen.setResizable(false); // TODO toggle?
         screen.setTitle("Image Converter");
-        screen.setIconImage(new ImageIcon("C:/Users/bowen/Desktop/Code/Java/ImageConverterMaven/icon.png").getImage());
+        Image icon = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/icon.png"));
+        screen.setIconImage(icon);
 
         Main main = new Main();
         screen.add(main);
