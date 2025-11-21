@@ -6,6 +6,8 @@ import openize.io.IOMode;
 
 import java.awt.image.BufferedImage;
 
+import static org.example.util.Util.throwError;
+
 public class HEICHandler {
     // https://products.openize.com/heic/java/
     static BufferedImage readHEIC(String path) {
@@ -20,7 +22,7 @@ public class HEICHandler {
             image2.setRGB(0, 0, width, height, pixels, 0, width);
             return image2;
         } catch (Exception e) {
-            Util.throwError("Error with reading .heic file");
+            throwError("Error with reading .heic file");
             return null;
         }
     }

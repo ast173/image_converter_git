@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.nio.file.Paths;
 
+import static org.example.util.Util.INPUT_TYPES;
+
 public class Main extends JPanel {
     // screen settings
     private final int SCREEN_WIDTH = 550;
@@ -40,7 +42,7 @@ public class Main extends JPanel {
     JLabel newLabel;
 
     // variables
-    String outputType = Util.INPUT_TYPES[0];
+    String outputType = INPUT_TYPES[0];
     BufferedImage originalImage;
     BufferedImage image;
 
@@ -72,10 +74,13 @@ public class Main extends JPanel {
     }
 
     private void drawScaledImage(Graphics2D g2, BufferedImage image, int x, int y) {
-        double scale = Math.min((double) BOX_SIZE / image.getWidth(), (double) BOX_SIZE / image.getHeight());
+        int imageWidth = image.getWidth();
+        int imageHeight = image.getHeight();
 
-        int scaledWidth = (int) (image.getWidth() * scale);
-        int scaledHeight = (int) (image.getHeight() * scale);
+        double scale = Math.min((double) BOX_SIZE / imageWidth, (double) BOX_SIZE / imageHeight);
+
+        int scaledWidth = (int) (imageWidth * scale);
+        int scaledHeight = (int) (imageHeight * scale);
 
         int imageX = x + (BOX_SIZE - scaledWidth) / 2;
         int imageY = y + (BOX_SIZE - scaledHeight) / 2;
@@ -92,7 +97,7 @@ public class Main extends JPanel {
         JFrame screen = new JFrame();
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        screen.setResizable(false); // TODO toggle?
-        screen.setTitle("Image Converter");
+        screen.setTitle("Image Converter v2.1");
         Image icon = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/icon.png"));
         screen.setIconImage(icon);
 

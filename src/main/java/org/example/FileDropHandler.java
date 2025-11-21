@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.example.util.Util.*;
+
 // https://stackoverflow.com/questions/811248/how-can-i-use-drag-and-drop-in-swing-to-get-file-path/8456166
 public class FileDropHandler extends TransferHandler {
     Main main;
@@ -36,8 +38,8 @@ public class FileDropHandler extends TransferHandler {
         String inputPath = inputFile.getAbsolutePath();
 
         // check if file is not an acceptable image type
-        if (!Util.isAcceptableFileFormat(inputPath)) {
-            Util.throwError("Only " + Arrays.toString(Util.INPUT_TYPES) + " files are supported");
+        if (!isAcceptableFileFormat(inputPath)) {
+            throwError("Only " + Arrays.toString(INPUT_TYPES) + " files are supported");
             return false;
         }
 
@@ -49,7 +51,7 @@ public class FileDropHandler extends TransferHandler {
             main.image = main.originalImage;
             main.repaint();
         } catch (Exception e) {
-            Util.throwError("Image provided by path doesn't exist");
+            throwError("Image provided by path doesn't exist");
         }
 
         return true;
@@ -61,7 +63,7 @@ public class FileDropHandler extends TransferHandler {
             List<File> files = (List<File>) support.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
             return files.getFirst();
         } catch (UnsupportedFlavorException | IOException e) {
-            Util.throwError("UnsupportedFlavorException | IOException");
+            throwError("UnsupportedFlavorException | IOException");
             return null;
         }
     }

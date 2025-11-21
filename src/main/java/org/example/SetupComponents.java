@@ -1,8 +1,12 @@
 package org.example;
 
+import org.example.util.Direction;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.event.ActionEvent;
+
+import static org.example.util.Util.OUTPUT_TYPES;
 
 public class SetupComponents {
     Main main;
@@ -65,7 +69,7 @@ public class SetupComponents {
         main.add(main.convertButton);
 
         // output options
-        main.outputOptions = new JComboBox<>(Util.OUTPUT_TYPES);
+        main.outputOptions = new JComboBox<>(OUTPUT_TYPES);
         main.outputOptions.setBounds(225, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
         main.outputOptions.setSelectedItem(main.outputType);
         main.outputOptions.addActionListener(e -> func.changeType());

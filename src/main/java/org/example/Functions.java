@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.util.Direction;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -11,6 +13,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+import static org.example.util.Util.*;
+
 public class Functions {
     Main main;
 
@@ -19,12 +23,12 @@ public class Functions {
     }
 
     void getAbout() {
-        String aboutText = "Input file types: " + Arrays.toString(Util.INPUT_TYPES) +
-                "\nOutput file types: " + Arrays.toString(Util.OUTPUT_TYPES) +
+        String aboutText = "Input file types: " + Arrays.toString(INPUT_TYPES) +
+                "\nOutput file types: " + Arrays.toString(OUTPUT_TYPES) +
                 "\n" +
                 "\nImages with transparency will be lost when converted to types that don't support it" +
-                "\nFile types with transparency: " + Arrays.toString(Util.ALPHA_TYPES) +
-                "\nFile types without transparency: " + Arrays.toString(Util.NON_ALPHA_TYPES);
+                "\nFile types with transparency: " + Arrays.toString(ALPHA_TYPES) +
+                "\nFile types without transparency: " + Arrays.toString(NON_ALPHA_TYPES);
 
         JOptionPane.showMessageDialog(main, aboutText, "About", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -45,7 +49,7 @@ public class Functions {
         if (!isValidImage(path)) return;
 
         if (main.image == null) {
-            Util.throwError("Image is null");
+            throwError("Image is null");
             return;
         }
 
@@ -54,12 +58,12 @@ public class Functions {
 
     private boolean isValidImage(String path) {
         if (path.isEmpty()) {
-            Util.throwError("Input field is empty");
+            throwError("Input field is empty");
             return false;
         }
 
-        if (!Util.isAcceptableFileFormat(path)) {
-            Util.throwError("Image is an invalid type");
+        if (!isAcceptableFileFormat(path)) {
+            throwError("Image is an invalid type");
             return false;
         }
 
@@ -97,7 +101,7 @@ public class Functions {
                 JOptionPane.YES_NO_OPTION
         );
         if (choice != JOptionPane.YES_OPTION) {
-            Util.throwMessage("Image conversion has been canceled");
+            throwMessage("Image conversion has been canceled");
             return false;
         }
         return true;
@@ -109,19 +113,19 @@ public class Functions {
             String outputType = main.outputType.replace(".", "");
 
             // replace transparency with white pixels when converting to a type that doesn't support it
-            if (!Util.supportsAlpha(outputType) && image.getColorModel().hasAlpha()) {
+            if (!supportsAlpha(outputType) && image.getColorModel().hasAlpha()) {
                 image = replaceAlphaLayerWith(image, Color.WHITE);
-                Util.throwMessage("Transparent pixels has been replaced with white (#ffffff)");
+                throwMessage("Transparent pixels has been replaced with white (#ffffff)");
             }
 
             // convert
             if (ImageIO.write(image, outputType, outputFile)) {
-                Util.throwMessage("Converted to " + main.outputType);
+                throwMessage("Converted to " + main.outputType);
             } else {
-                Util.throwError("Failed to convert to " + main.outputType);
+                throwError("Failed to convert to " + main.outputType);
             }
         } catch (IOException e) {
-            Util.throwError("IOException");
+            throwError("IOException");
         }
     }
 
@@ -142,7 +146,7 @@ public class Functions {
     // https://stackoverflow.com/questions/9558981/flip-image-with-graphics2d
     void flip(BufferedImage image, Direction direction) {
         if (main.image == null) {
-            Util.throwError("An image has not been loaded yet");
+            throwError("An image has not been loaded yet");
             return;
         }
 
@@ -157,7 +161,7 @@ public class Functions {
                 tx.translate(0, -image.getHeight());
                 break;
             default:
-                Util.throwError("Direction must be \"HORIZONTALLY\" or \"VERTICALLY\"");
+                throwError("Direction must be \"HORIZONTALLY\" or \"VERTICALLY\"");
                 return;
         }
 
@@ -169,7 +173,7 @@ public class Functions {
     // https://stackoverflow.com/questions/8639567/java-rotating-images
     void rotate(BufferedImage image, Direction direction) {
         if (main.image == null) {
-            Util.throwError("An image has not been loaded yet");
+            throwError("An image has not been loaded yet");
             return;
         }
 
@@ -192,7 +196,7 @@ public class Functions {
                 tx.rotate(Math.toRadians(-90));
                 break;
             default:
-                Util.throwError("Degrees must be \"CLOCKWISE\" or \"COUNTER_CLOCKWISE\"");
+                throwError("Degrees must be \"CLOCKWISE\" or \"COUNTER_CLOCKWISE\"");
                 return;
         }
 
