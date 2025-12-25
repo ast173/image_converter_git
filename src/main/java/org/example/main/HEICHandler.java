@@ -1,4 +1,4 @@
-package org.example;
+package org.example.main;
 
 import openize.heic.decoder.HeicImage;
 import openize.io.IOFileStream;

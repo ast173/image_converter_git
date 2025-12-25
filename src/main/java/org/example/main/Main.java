@@ -1,50 +1,30 @@
-package org.example;
+package org.example.main;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.nio.file.Paths;
+import java.util.Objects;
 
+import static org.example.util.Util.BOX_SIZE;
 import static org.example.util.Util.INPUT_TYPES;
 
 public class Main extends JPanel {
     // screen settings
-    private final int SCREEN_WIDTH = 550;
-    private final int SCREEN_HEIGHT = 550;
-
-    private final int BOX_SIZE = 200;
-
-    // path
-    private final String homePath = Paths.get("").toAbsolutePath().toString();
+    private static final int SCREEN_WIDTH = 550;
+    private static final int SCREEN_HEIGHT = 550;
 
     // components
     private final SetupComponents create = new SetupComponents(this);
 
     // UI components
-    // convert tool components
-    JLabel inputLabel;
     JTextField inputTextField;
-    JButton clearButton;
-    JButton exitButton;
-    JButton aboutButton;
-
-    // convert tool components
-    JButton convertButton;
     JComboBox<String> outputOptions;
     JFileChooser fileChooser;
 
-    // flip tool components
-    JButton horizontalFlipButton;
-    JButton verticalFlipButton;
-    JButton rotateCWButton;
-    JButton rotateCCWButton;
-    JLabel originalLabel;
-    JLabel newLabel;
-
     // variables
     String outputType = INPUT_TYPES[0];
-    BufferedImage originalImage;
-    BufferedImage image;
+    BufferedImage inputImage;
+    BufferedImage outputImage;
 
     Main() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -53,7 +33,6 @@ public class Main extends JPanel {
         this.setLayout(null);
         this.setTransferHandler(new FileDropHandler(this));
 
-        // create components
         create.mainComponents();
         create.convertionComponents();
         create.flipComponents();
@@ -64,9 +43,9 @@ public class Main extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        if (originalImage != null) {
-            drawScaledImage(g2, originalImage, 50, 300);
-            drawScaledImage(g2, image, 300, 300);
+        if (inputImage != null) {
+            drawScaledImage(g2, inputImage, 50, 300);
+            drawScaledImage(g2, outputImage, 300, 300);
         }
 
         drawBoxOutline(g2, 50, 300);
@@ -98,7 +77,7 @@ public class Main extends JPanel {
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        screen.setResizable(false); // TODO toggle?
         screen.setTitle("Image Converter v2.1");
-        Image icon = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/icon.png"));
+        Image icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("/icon.png"))).getImage();
         screen.setIconImage(icon);
 
         Main main = new Main();

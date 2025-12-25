@@ -105,7 +105,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.example.Main</mainClass>
+                                    <mainClass>org.example.main.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -120,7 +120,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.example.Main</mainClass>
+                            <mainClass>org.example.main.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

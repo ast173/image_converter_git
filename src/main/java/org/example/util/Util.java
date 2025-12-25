@@ -1,6 +1,6 @@
 package org.example.util;
 
-import org.example.Main;
+import org.example.main.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +9,15 @@ import java.util.Arrays;
 
 public class Util {
     static Main main;
+
+    public static final int BOX_SIZE = 200;
+
+    public static final int BUTTON_WIDTH = 100;
+    public static final int BUTTON_HEIGHT = 30;
+    public static final int LABEL_WIDTH = 100;
+    public static final int LABEL_HEIGHT = 20;
+    public static final int TEXT_FIELD_WIDTH = 200;
+    public static final int TEXT_FIELD_HEIGHT = 30;
 
     public static final String[] INPUT_TYPES = {".png", ".jpeg", ".jpg", ".heic", ".webp", ".ico"};
     public static final String[] OUTPUT_TYPES = {".png", ".jpeg", ".jpg", ".webp"};

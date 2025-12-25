@@ -1,4 +1,4 @@
-package org.example;
+package org.example.main;
 
 import org.example.util.Direction;
 
@@ -16,7 +16,7 @@ import java.util.Arrays;
 import static org.example.util.Util.*;
 
 public class Functions {
-    Main main;
+    private Main main;
 
     Functions(Main main) {
         this.main = main;
@@ -35,8 +35,8 @@ public class Functions {
 
     void clear() {
         main.inputTextField.setText("");
-        main.originalImage = null;
-        main.image = null;
+        main.inputImage = null;
+        main.outputImage = null;
         main.repaint();
     }
 
@@ -48,12 +48,12 @@ public class Functions {
         String path = main.inputTextField.getText();
         if (!isValidImage(path)) return;
 
-        if (main.image == null) {
+        if (main.outputImage == null) {
             throwError("Image is null");
             return;
         }
 
-        openFileChooser(path, main.image);
+        openFileChooser(path, main.outputImage);
     }
 
     private boolean isValidImage(String path) {
@@ -144,8 +144,8 @@ public class Functions {
     }
 
     // https://stackoverflow.com/questions/9558981/flip-image-with-graphics2d
-    void flip(BufferedImage image, Direction direction) {
-        if (main.image == null) {
+    void flip(Direction direction) {
+        if (main.outputImage == null) {
             throwError("An image has not been loaded yet");
             return;
         }
@@ -154,11 +154,11 @@ public class Functions {
         switch (direction) {
             case HORIZONTALLY:
                 tx = AffineTransform.getScaleInstance(-1, 1);
-                tx.translate(-image.getWidth(), 0);
+                tx.translate(-main.outputImage.getWidth(), 0);
                 break;
             case VERTICALLY:
                 tx = AffineTransform.getScaleInstance(1, -1);
-                tx.translate(0, -image.getHeight());
+                tx.translate(0, -main.outputImage.getHeight());
                 break;
             default:
                 throwError("Direction must be \"HORIZONTALLY\" or \"VERTICALLY\"");
@@ -166,21 +166,21 @@ public class Functions {
         }
 
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-        main.image = op.filter(image, null);
+        main.outputImage = op.filter(main.outputImage, null);
         main.repaint();
     }
 
     // https://stackoverflow.com/questions/8639567/java-rotating-images
-    void rotate(BufferedImage image, Direction direction) {
-        if (main.image == null) {
+    void rotate(Direction direction) {
+        if (main.outputImage == null) {
             throwError("An image has not been loaded yet");
             return;
         }
 
-        int width = image.getWidth();
-        int height = image.getHeight();
+        int width = main.outputImage.getWidth();
+        int height = main.outputImage.getHeight();
 
-        BufferedImage newImage = new BufferedImage(height, width, image.getType());
+        BufferedImage newImage = new BufferedImage(height, width, main.outputImage.getType());
         Graphics2D g2 = newImage.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
@@ -200,10 +200,10 @@ public class Functions {
                 return;
         }
 
-        g2.drawImage(image, tx, null);
+        g2.drawImage(main.outputImage, tx, null);
         g2.dispose();
 
-        main.image = newImage;
+        main.outputImage = newImage;
         main.repaint();
     }
 }

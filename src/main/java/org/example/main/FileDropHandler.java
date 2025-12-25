@@ -1,4 +1,4 @@
-package org.example;
+package org.example.main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -13,7 +13,7 @@ import static org.example.util.Util.*;
 
 // https://stackoverflow.com/questions/811248/how-can-i-use-drag-and-drop-in-swing-to-get-file-path/8456166
 public class FileDropHandler extends TransferHandler {
-    Main main;
+    private Main main;
 
     FileDropHandler(Main main) {
         this.main = main;
@@ -48,7 +48,7 @@ public class FileDropHandler extends TransferHandler {
         // get image
         try {
             readFile(inputPath, inputFile);
-            main.image = main.originalImage;
+            main.outputImage = main.inputImage;
             main.repaint();
         } catch (Exception e) {
             throwError("Image provided by path doesn't exist");
@@ -69,11 +69,11 @@ public class FileDropHandler extends TransferHandler {
     }
 
     private void readFile(String inputPath, File inputFile) throws IOException {
+        // handle .heic images differently
         if (inputPath.toLowerCase().endsWith(".heic")) {
-            // handle .heic images differently
-            main.originalImage = HEICHandler.readHEIC(inputPath);
+            main.inputImage = HEICHandler.readHEIC(inputPath);
         } else {
-            main.originalImage = ImageIO.read(inputFile);
+            main.inputImage = ImageIO.read(inputFile);
         }
     }
 }
