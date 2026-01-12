@@ -75,7 +75,6 @@ public class Main extends JPanel {
     public static void main(String[] args) {
         JFrame screen = new JFrame();
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        screen.setResizable(false); // TODO toggle?
         screen.setTitle("Image Converter v2.1");
         Image icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("/icon.png"))).getImage();
         screen.setIconImage(icon);
