@@ -5,14 +5,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
-import static org.example.util.Util.BOX_SIZE;
-import static org.example.util.Util.INPUT_TYPES;
+import static org.example.util.Util.*;
 
 public class Main extends JPanel {
-    // screen settings
-    private static final int SCREEN_WIDTH = 550;
-    private static final int SCREEN_HEIGHT = 550;
-
     // components
     private final SetupComponents create = new SetupComponents(this);
 
@@ -27,63 +22,43 @@ public class Main extends JPanel {
     BufferedImage outputImage;
 
     Main() {
+        this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setDoubleBuffered(true);
         this.setFocusable(true);
-        this.setLayout(null);
         this.setTransferHandler(new FileDropHandler(this));
 
-        create.mainComponents();
-        create.convertionComponents();
-        create.flipComponents();
+        JPanel leftWrapper = new JPanel(new BorderLayout());
+        leftWrapper.add(create.leftColumn, BorderLayout.SOUTH);
+
+        JPanel rightWrapper = new JPanel(new BorderLayout());
+        rightWrapper.add(create.rightColumn, BorderLayout.SOUTH);
+
+        JPanel panel = new JPanel(new FlowLayout());
+        panel.add(leftWrapper);
+        panel.add(rightWrapper);
+
+        this.add(panel, BorderLayout.CENTER);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-
-        if (inputImage != null) {
-            drawScaledImage(g2, inputImage, 50, 300);
-            drawScaledImage(g2, outputImage, 300, 300);
-        }
-
-        drawBoxOutline(g2, 50, 300);
-        drawBoxOutline(g2, 300, 300);
-    }
-
-    private void drawScaledImage(Graphics2D g2, BufferedImage image, int x, int y) {
-        int imageWidth = image.getWidth();
-        int imageHeight = image.getHeight();
-
-        double scale = Math.min((double) BOX_SIZE / imageWidth, (double) BOX_SIZE / imageHeight);
-
-        int scaledWidth = (int) (imageWidth * scale);
-        int scaledHeight = (int) (imageHeight * scale);
-
-        int imageX = x + (BOX_SIZE - scaledWidth) / 2;
-        int imageY = y + (BOX_SIZE - scaledHeight) / 2;
-
-        g2.drawImage(image.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH), imageX, imageY, this);
-    }
-
-    private void drawBoxOutline(Graphics2D g2, int x, int y) {
-        g2.setColor(Color.BLACK);
-        g2.drawRect(x, y, BOX_SIZE, BOX_SIZE);
     }
 
     public static void main(String[] args) {
-        JFrame screen = new JFrame();
-        screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        screen.setTitle("Image Converter v2.1");
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Image Converter v3.0");
         Image icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("/icon.png"))).getImage();
-        screen.setIconImage(icon);
+        frame.setIconImage(icon);
 
         Main main = new Main();
-        screen.add(main);
-        screen.pack();
+        frame.add(main);
+        frame.pack();
 
-        screen.setLocationRelativeTo(null);
-        screen.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }

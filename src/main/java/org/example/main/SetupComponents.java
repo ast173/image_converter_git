@@ -1,9 +1,12 @@
 package org.example.main;
 
 import org.example.util.Direction;
+import org.example.util.GBC;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
+
+import java.awt.*;
 
 import static org.example.util.Util.*;
 
@@ -11,55 +14,75 @@ public class SetupComponents {
     private Main main;
     private Functions func;
 
+    JPanel leftColumn = new JPanel(new GridBagLayout());
+    JPanel row = new JPanel(new GridBagLayout());
+    JPanel rightColumn = new JPanel(new GridBagLayout());
+
     SetupComponents(Main main) {
         this.main = main;
         this.func = new Functions(main);
+
+        leftColumn();
+        rightColumn();
     }
 
-    void mainComponents() {
+    void leftColumn() {
+        GBC gbc = new GBC();
+        gbc.fill = GridBagConstraints.BOTH;
+
         // input label
         JLabel inputLabel = new JLabel("Input File:");
-        inputLabel.setBounds(50, 30, LABEL_WIDTH, LABEL_HEIGHT);
-        main.add(inputLabel);
+        leftColumn.add(inputLabel);
 
         // input text field
+        gbc.moveDown();
         main.inputTextField = new JTextField("");
-        main.inputTextField.setBounds(50, 50, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
         main.inputTextField.addActionListener(e -> func.attemptConvert());
-        main.add(main.inputTextField);
+        leftColumn.add(main.inputTextField, gbc);
+
+        // convertion row
+        gbc.moveDown();
+        singleRow();
+        leftColumn.add(row, gbc);
 
         // clear button
+        gbc.moveDown();
         JButton clearButton = new JButton("Clear");
-        clearButton.setBounds(100, 150, BUTTON_WIDTH, BUTTON_HEIGHT);
         clearButton.addActionListener(e -> func.clear());
-        main.add(clearButton);
+        leftColumn.add(clearButton, gbc);
 
         // about button
+        gbc.moveDown();
         JButton aboutButton = new JButton("About");
-        aboutButton.setBounds(100, 200, BUTTON_WIDTH, BUTTON_HEIGHT);
         aboutButton.addActionListener(e -> func.getAbout());
-        main.add(aboutButton);
+        leftColumn.add(aboutButton, gbc);
 
         // exit button
+        gbc.moveDown();
         JButton exitButton = new JButton("Exit");
-        exitButton.setBounds(100, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
         exitButton.addActionListener(e -> System.exit(0));
-        main.add(exitButton);
+        leftColumn.add(exitButton, gbc);
+
+        // original label
+        gbc.moveDown();
+        JLabel originalLabel = new JLabel("Original Image:");
+        leftColumn.add(originalLabel, gbc);
     }
 
-    void convertionComponents() {
+    void singleRow() {
+        GBC gbc = new GBC();
+
         // convert button
         JButton convertButton = new JButton("Convert");
-        convertButton.setBounds(100, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
         convertButton.addActionListener(e -> func.attemptConvert());
-        main.add(convertButton);
+        row.add(convertButton, gbc);
 
         // output options
+        gbc.moveRight();
         main.outputOptions = new JComboBox<>(OUTPUT_TYPES);
-        main.outputOptions.setBounds(225, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
         main.outputOptions.setSelectedItem(main.outputType);
         main.outputOptions.addActionListener(e -> func.changeType());
-        main.add(main.outputOptions);
+        row.add(main.outputOptions, gbc);
 
         // file chooser
         // defaults to home folder
@@ -67,39 +90,36 @@ public class SetupComponents {
         main.fileChooser.setDialogTitle("Save Image");
     }
 
-    void flipComponents() {
+    void rightColumn() {
+        GBC gbc = new GBC();
+        gbc.fill = GridBagConstraints.BOTH;
+
         // flip horizontally
         JButton horizontalFlipButton = new JButton("Flip ⇄");
-        horizontalFlipButton.setBounds(350, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
         horizontalFlipButton.addActionListener(e -> func.flip(Direction.HORIZONTALLY));
-        main.add(horizontalFlipButton);
+        rightColumn.add(horizontalFlipButton, gbc);
 
         // flip vertically
+        gbc.moveDown();
         JButton verticalFlipButton = new JButton("Flip ⇅");
-        verticalFlipButton.setBounds(350, 150, BUTTON_WIDTH, BUTTON_HEIGHT);
         verticalFlipButton.addActionListener(e -> func.flip(Direction.VERTICALLY));
-        main.add(verticalFlipButton);
+        rightColumn.add(verticalFlipButton, gbc);
 
         // rotate clockwise
+        gbc.moveDown();
         JButton rotateCWButton = new JButton("Rotate ↻");
-        rotateCWButton.setBounds(350, 200, BUTTON_WIDTH, BUTTON_HEIGHT);
         rotateCWButton.addActionListener(e -> func.rotate(Direction.CLOCKWISE));
-        main.add(rotateCWButton);
+        rightColumn.add(rotateCWButton, gbc);
 
         // rotate counterclockwise
+        gbc.moveDown();
         JButton rotateCCWButton = new JButton("Rotate ↺");
-        rotateCCWButton.setBounds(350, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
         rotateCCWButton.addActionListener(e -> func.rotate(Direction.COUNTER_CLOCKWISE));
-        main.add(rotateCCWButton);
-
-        // original label
-        JLabel originalLabel = new JLabel("Original Image:");
-        originalLabel.setBounds(50, 500, LABEL_WIDTH, LABEL_HEIGHT);
-        main.add(originalLabel);
+        rightColumn.add(rotateCCWButton, gbc);
 
         // new label
+        gbc.moveDown();
         JLabel newLabel = new JLabel("New Image:");
-        newLabel.setBounds(300, 500, LABEL_WIDTH, LABEL_HEIGHT);
-        main.add(newLabel);
+        rightColumn.add(newLabel, gbc);
     }
 }
