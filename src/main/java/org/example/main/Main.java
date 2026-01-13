@@ -1,5 +1,7 @@
 package org.example.main;
 
+import org.example.util.GBC;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -34,11 +36,14 @@ public class Main extends JPanel {
         JPanel rightWrapper = new JPanel(new BorderLayout());
         rightWrapper.add(create.rightColumn, BorderLayout.SOUTH);
 
-        JPanel panel = new JPanel(new FlowLayout());
-        panel.add(leftWrapper);
-        panel.add(rightWrapper);
+        JPanel panel = new JPanel(new GridBagLayout());
+        GBC gbc = new GBC();
+        gbc.anchor = GridBagConstraints.SOUTH;
+        panel.add(leftWrapper, gbc);
+        gbc.moveRight();
+        panel.add(rightWrapper, gbc);
 
-        this.add(panel, BorderLayout.CENTER);
+        this.add(panel, BorderLayout.NORTH);
     }
 
     @Override
